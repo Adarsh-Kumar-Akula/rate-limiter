@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,27 +13,32 @@ import (
 )
 
 func main() {
-	// --- Initialize Store ---
+	// Initialize Store
 	memStore := store.NewMemoryStore()
 
-	// --- Initialize Rate Limiter ---
+	// Initialize Rate Limiter
 	rateLimiter := service.NewRateLimiter(memStore, 5, time.Minute)
 
-	// --- Initialize Handler ---
+	// Initialize Handler
 	handler := controller.NewHandler(rateLimiter)
 
-	// --- Setup Gin Router ---
+	// setup Gin Router
 	r := gin.Default()
 
-	// --- Routes ---
+	// Routes
 	r.POST("/request", handler.HandleRequest)
 	r.GET("/stats", handler.GetStats)
 
-	// --- Start Server ---
-	port := ":8080"
-	log.Printf("Server running on %s\n", port)
+	// configure port
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
-	if err := r.Run(port); err != nil {
+	log.Println("Server running on port", port)
+
+	// Start server
+	if err := r.Run(":" + port); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
