@@ -175,6 +175,9 @@ Deployed using [Render](https://render.com) (free tier).
   - Not suitable for distributed systems
 - No persistence layer
 - No horizontal scaling support
+- Time Dependency
+  -  Relies on system clock (time.Now())
+  -  Clock drift or skew can affect accuracy
 
 ---
 
