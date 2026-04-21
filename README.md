@@ -188,7 +188,6 @@ Deployed using [Render](https://render.com) (free tier).
 - Add middleware-based rate limiting
 - Add monitoring and logging
 - Add unit and load tests
-- Containerize and deploy with orchestration
 
 ---
 
